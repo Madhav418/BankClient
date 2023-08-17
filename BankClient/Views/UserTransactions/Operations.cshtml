@@ -1,0 +1,627 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+   
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 350px;
+        }
+
+        th, td {
+            padding: 4px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #f2f2f2;
+            font-weight: bold;
+            height: 30px;
+        }
+
+        /*table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 400px;
+        }
+
+        table,th, td {
+            padding: 4px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+
+        }
+
+        th {
+            background-color: #f2f2f2;
+            font-weight: bold;
+            height:30px;
+        }
+
+    </style>
+
+    <title>Banking App</title>
+    <link href="~/styles/User.css" rel="stylesheet" />
+
+    <style>
+        #msg1 {
+            font-size: 18px;
+            font-weight: bold;
+            color: #179c6f; /* You can change the color to your preference */
+            padding: 0px;
+            /*border: 1px solid #007bff;*/
+            /* border-radius: 5px;*/
+            background-color: #f2f2f2;
+        }
+
+        #msg2 {
+            font-size: 18px;
+            font-weight: bold;
+            color: #179c6f; /* You can change the color to your preference */
+            padding: 0px;
+            /*border: 1px solid #007bff;*/
+            /* border-radius: 5px;*/
+            background-color: #f2f2f2;
+        }
+
+        #msg3 {
+            font-size: 18px;
+            font-weight: bold;
+            color: #007bff; /* You can change the color to your preference */
+            padding: 0px;
+            /*border: 1px solid #007bff;*/
+            /* border-radius: 5px;*/
+            background-color: #f2f2f2;
+        }
+
+        #msg4 {
+            font-size: 25px;
+            font-weight: bold;
+            color: darkblue; /* You can change the color to your preference */
+            padding: 0px;
+            /*border: 1px solid #007bff;*/
+            /* border-radius: 5px;*/
+         /*  background-color: #f2f2f2;*/
+            margin-top: 400px;
+        }
+
+        #withdrawForm input:disabled {
+            color: black;
+            /* Change to your desired text color */
+        }
+
+        #depositForm input:disabled {
+            color: black;
+            /* Change to your desired text color */
+        }
+        
+    </style>
+    <script>
+        function printTable() {
+            var transactionsDiv = document.getElementById('transactionsDiv');
+            var table = document.getElementById('tdata');
+
+            // Show the hidden div containing the table
+            transactionsDiv.style.display = 'block';
+
+            // Print the table
+            var printWindow = window.open('', '', 'width=800,height=600');
+            printWindow.document.write('<html><head><title>Transaction Details</title>');
+            printWindow.document.write('<link rel="stylesheet" href="path_to_your_stylesheet.css" type="text/css" />');
+            printWindow.document.write('</head><body>');
+            printWindow.document.write(table.outerHTML);
+            printWindow.document.write('</body></html>');
+            printWindow.document.close();
+            printWindow.print();
+
+            // Hide the div again
+            transactionsDiv.style.display = 'none';
+        }
+
+    </script>
+
+
+
+
+    <script>
+
+        $(function () {
+            $("#depositbtn").click(function () {
+
+                var acc = $("#accno").val();
+                var amount = $("#depositAmount").val();
+
+
+                var requestData = {
+                    accountno: parseInt(acc), // Convert to integer
+                    amount: parseFloat(amount) // Convert to floating-point number
+                };
+
+                $.ajax({
+                    type: "GET",
+                    url: "https://localhost:44352/api/UserOperations/GetDeposit/",
+                    data: requestData,
+                    dataType: "json",
+                    contentType: "application/json;charset=utf-8",
+                    success: function (data) {
+
+
+                        //alert(data);
+                        $("#msg1").text(data);
+                        $("#depositAmount").val('');
+
+                    },
+
+                    error: function (x, err) {
+                        alert(x.readyState);
+                        alert(x.responseText);
+                    }
+                });
+            });
+        });//End of the Deposit form
+
+
+        $(function () {
+            $("#withdrawbtn").click(function () {
+
+                var acc = $("#accno").val();
+                var amount = $("#withdrawAmount").val();
+
+
+                var requestData = {
+                    accountno: parseInt(acc), // Convert to integer
+                    amount: parseFloat(amount) // Convert to floating-point number
+                };
+
+                $.ajax({
+                    type: "GET",
+                    url: "https://localhost:44352/api/UserOperations/GetWithdraw/",
+                    data: requestData,
+                    dataType: "json",
+                    contentType: "application/json;charset=utf-8",
+                    success: function (data) {
+
+
+                        // alert(data);
+                        $("#msg2").text(data).addClass("message-style");
+                        $("#withdrawAmount").val('');
+
+                    },
+
+                    error: function (x, err) {
+                        alert(x.readyState);
+                        alert(x.responseText);
+                    }
+                });
+            });
+        });//End of the Withdraw form
+
+
+
+
+        $(function () {
+            $("#Transferbutton").click(function () {
+                var sacc = $("#accno").val();
+                var acc = $("#AccountNo").val();
+                var amount = $("#transferAmount").val();
+                var name = $("#recipientName").val();
+
+                if (sacc === "" || acc === "" || amount === "" || name === "") {
+                    // Display a user-friendly message about missing input
+                    $("#msg3").text("Please fill in all input fields.");
+                    return;
+                }
+
+                var requestData = {
+                    saccountno: parseInt(sacc),
+                    accountno: parseInt(acc),
+                    amount: parseFloat(amount),
+                    name: name
+                };
+
+                $.ajax({
+                    type: "GET",
+                    url: "https://localhost:44352/api/UserOperations/GetTransfer/",
+                    data: requestData,
+                    dataType: "json",
+                    contentType: "application/json;charset=utf-8",
+                    success: function (data) {
+                        $("#msg3").text(data);
+                        $("#transferAmount").val('');
+                    },
+                    error: function (xhr, textStatus, errorThrown) {
+                        if (xhr.status === 400) {
+                            // Display the validation error message
+                            $("#msg3").text(xhr.responseText);
+                        } else {
+                            // Display a generic error message for other errors
+                            $("#msg3").text("An error occurred. Please try again later.");
+                        }
+                    }
+                });
+            });
+        });
+
+
+
+
+
+
+        $(function () {
+            $("#transactionsLink").click(function () {
+                var sacc = $("#accno").val();
+                var requestData = {
+                    saccountno: parseInt(sacc),
+                };
+
+                $.ajax({
+                    type: "GET",
+                    url: "https://localhost:44352/api/UserOperations/GetTransaction/",
+                    data: requestData,
+                    dataType: "json",
+                    contentType: "application/json;charset=utf-8",
+                    success: function (data) {
+                        $("#tdata").empty(); // Clear the table before appending new data
+                        $("#tdata").append("<tr><td>TransactionId</td><td>TransactionType</td><td>AccountNo</td><td>Amount</td><td>TransactionDate</td></tr>");
+                        var dt = "";
+
+                        for (i = 0; i < data.length; i++) {
+                            dt += "<tr><td>" + data[i].TransactionId + "</td>";
+                            dt += "<td>" + data[i].TransactionType + "</td>";
+                            dt += "<td>" + data[i].AccountNo + "</td>";
+                            dt += "<td>" + data[i].Amount + "</td>";
+                            dt += "<td>" + data[i].TransactionDate + "</td></tr>";
+                        }
+
+                        $("#tdata").append(dt); // Append the new data after the loop
+                    },
+                    error: function (x, err) {
+                        alert(x.readyState);
+                        alert(x.responseText);
+                    }
+                });
+            });
+        });
+
+
+
+
+
+        //CheckBalance
+
+        $(function () {
+            $("#checkBalanceLink").click(function () {
+                var sacc = $("#accno").val();
+                var requestData = {
+                    saccountno: parseInt(sacc),
+                }
+
+                $.ajax({
+                    type: "GET",
+
+                    url: "https://localhost:44352/api/UserOperations/GetCheckBalance/",
+                    data: requestData,
+                    dataType: "json",
+                    contentType: "application/json;charset=utf-8",
+                    success: function (data) {
+
+                        //alert(data);
+                        $("#msg4").text(data).addClass("message-style");
+
+                    },
+                    error: function (x, err) {
+                        alert(x.readyState);
+                        alert(x.responseText);
+                    }
+                });
+            });
+        });  //End of the chekcBalance form
+
+
+        $(function () {
+            $("#AccountNo").blur(function () {
+                var acc = $("#AccountNo").val();
+
+                // Check if account number is empty
+                if (acc === "") {
+                    $("#recipientName").val("");
+                    return;
+                }
+
+                var requestData = {
+                    accountno: parseInt(acc),
+                }
+
+                $.ajax({
+                    type: "GET",
+                    url: "https://localhost:44352/api/Bank",
+                    data: requestData,
+                    dataType: "json",
+                    contentType: "application/json;charset=utf-8",
+                    success: function (response) {
+                        if (response) {
+                            // Set the recipient name
+                            $("#recipientName").val(response);
+                        } else {
+                            // Clear recipient name if account not found
+                            $("#recipientName").val("");
+                            // You might want to display a message indicating that the account was not found
+                        }
+                    },
+                    error: function (xhr, textStatus, errorThrown) {
+                        // Handle errors, display a message, or take appropriate actions
+                        console.log(xhr.status, errorThrown);
+                    }
+                });
+            });
+        });
+
+
+
+    </script>
+
+
+
+
+</head>
+<body>
+
+    <div id="depositDiv" style="display: none;">
+        <div style="position: fixed; bottom: 0; left: 0; width: 100%;height:330px; display: flex; justify-content: flex-start;margin-top:10px; margin-left: 140px;">
+            <form id="depositForm" class="iform " style="flex: 1; max-width: 500px;">
+                <label for="depositAmount" style="display: flex; justify-content: center; align-items: center;">
+                    <h3 style="color: black; margin: 0;">Deposit</h3>
+                </label>
+                <div id="msg1"></div>
+                <br />
+                <div style="display: flex; align-items: center;">
+                    <div style="flex: 1; margin-right: 10px;">
+                        <h5 style="color: black;">User ID</h5>
+                        <input type="text" id="userId" value=@Session["userid"] disabled />
+                    </div>
+                    <div style="flex: 1;">
+                        <h5 style="color: black;">Account Number</h5>
+                        <input type="text" id="accno" value=@Session["Account"] disabled />
+                    </div>
+                </div>
+                <br />
+                <div>
+                    <h5 style="color: black;">Amount</h5>
+                    <input type="number" id="depositAmount" placeholder="Enter Amount" name="depositAmount" step="0.01" required style="text-align: center;">
+                </div>
+
+                <div>
+                    <button class="btn btn-success" type="button" id="depositbtn">Proceed</button>
+                </div>
+            </form>
+            <!-- Other content on the right side of the container -->
+            <div style="flex: 1;">
+
+            </div>
+        </div>
+    </div>
+
+    
+
+
+
+
+    <div id="withdrawDiv" style="display: none;">
+        <div style="position: fixed; bottom: 0; left: 0; width: 100%;height:330px; display: flex; justify-content: flex-start;margin-top:10px; margin-left: 140px;">
+            <form id="withdrawForm" class="iform " style="flex: 1; max-width: 500px;">
+                <label for="withdrawAmount" style="display: flex; justify-content: center; align-items: center" ;>
+                    <h3 style="color: black; margin: 0;">Withdraw</h3>
+                </label>
+                <div id="msg2"></div><br />
+                <div style="display: flex; align-items: center;">
+                    <div style="flex: 1; margin-right: 10px;">
+                        <h5 style="color: black;">User ID</h5>
+                        <input type="text" id="userId" value=@Session["userid"]  disabled/>
+                    </div>
+                    <div style="flex: 1;">
+                        <h5 style="color: black;">Account Number</h5>
+                        <input type="text" id="accno" value=@Session["Account"]  disabled/>
+                    </div>
+                </div>
+                <br/>
+                <div>
+                    <h5 style="color: black;">Amount</h5>
+                    <input type="number" id="withdrawAmount" placeholder="Enter Amount" name="withdrawAmount" step="0.01" required style="text-align: center;">
+                </div>
+              
+
+                <button type="button" class="btn btn-success" id="withdrawbtn">Proceed</button>
+            </form>
+            <div style="flex: 1;">
+
+            </div>
+
+        </div>
+    </div>
+
+    <div id="transferDiv" style="display: none;">
+        <div style="position: fixed; bottom: 0; left: 0; width: 100%;height:330px; display: flex; justify-content: flex-start;margin-top:10px; margin-left: 25px;">
+            <form id="transferForm" class="transferform  deposit-bg" style="flex: 1; max-width: 650px" ;>
+                <label for="transferAmount" style="display: flex; justify-content: center; align-items: center" ;>
+                    <h3 style="color: black; margin: 0;">Transfer</h3>
+                </label>
+                <div id="msg3"></div><br />
+
+                <div style="display: flex; align-items: center;">
+                    <div style="flex: 1; margin-right: 10px;">
+                        <h5 style="color: black;">Sender AccountNo</h5>
+                        <input type="text" id="accno" value=@Session["Account"] disabled /> <br />
+                    </div>
+                    <div style="flex: 1; margin-right: 10px;">
+                        <h5 style="color: black;">Recipient AccountNo</h5>
+                        <input type="text" id="AccountNo" name="AccountNo" placeholder="AccountNo"><br>
+                    </div>
+                    <div style="flex: 1;">
+                        <h5 style="color: black;">Recipient Name</h5>
+                        <input type="text" id="recipientName" name="recipientName" placeholder="RecipientName" disabled><br>
+                    </div>
+                </div>
+                <div>
+                    <h5 style="color: black;">Amount</h5>
+                    <input type="number" id="transferAmount" placeholder="Enter Amount" name="transferAmount" step="0.01" required style="text-align: center;">
+                </div>
+
+                <button type="button" class="btn btn-success" id="Transferbutton">Transfer</button>
+            </form>
+            <div style="flex: 1;">
+
+            </div>
+
+        </div>
+    </div>
+
+    <div id="transactionsDiv" style="display: none; margin-left:50px; margin-right:600px">
+        <form>
+        <table id="tdata" @*class="table table-striped"*@>
+
+            <!--transaction details-->
+        </table>
+            <br/>
+            <input type="button" class="btn btn-success" value="Print" id="btnPrint" onclick="printTable()"/>
+            </form>
+    </div>
+
+    <div id="checkBalanceDiv" style="display: none; margin-left: 150px; margin-right: 800px; margin-top: 300px">
+   
+           
+                <div id="msg4"></div>
+           
+
+    </div>
+        <table id="tdata" @*class="table table-striped"*@>
+
+            <!--transaction details-->
+        </table>
+        <!-- ... your existing scripts ... -->
+
+        <script>
+
+            // Inside your existing script tag
+
+            document.addEventListener("DOMContentLoaded", function () {
+                const depositLink = document.getElementById("depositLink");
+                const withdrawLink = document.getElementById("withdrawLink");
+                const transferLink = document.getElementById("transferLink");
+                const transactionsLink = document.getElementById("transactionsLink");
+                const checkBalanceLink = document.getElementById("checkBalanceLink");
+
+                depositLink.addEventListener("click", () => {
+                    hideAllDivs();
+                    hideTransactionsData();
+                    depositDiv.style.display = "block";
+                });
+
+                withdrawLink.addEventListener("click", () => {
+                    hideAllDivs();
+                    hideTransactionsData();
+                    withdrawDiv.style.display = "block";
+                });
+
+                transferLink.addEventListener("click", () => {
+                    hideAllDivs();
+                    hideTransactionsData();
+                    transferDiv.style.display = "block";
+                });
+
+                transactionsLink.addEventListener("click", () => {
+                    hideAllDivs();
+                    transactionsDiv.style.display = "block";
+                });
+
+                checkBalanceLink.addEventListener("click", () => {
+                    hideAllDivs();
+                    hideTransactionsData();
+                    hideCheckBalanceMessage();
+                    checkBalanceDiv.style.display = "block";
+                });
+
+                // ... your existing script ...
+            });
+
+            const depositBtn = document.getElementById("depositBtn");
+            const withdrawBtn = document.getElementById("withdrawBtn");
+            const transferBtn = document.getElementById("transferBtn");
+            const transactionsBtn = document.getElementById("transactionsBtn");
+            const checkBalanceBtn = document.getElementById("checkBalanceBtn");
+
+
+
+            const depositDiv = document.getElementById("depositDiv");
+            const withdrawDiv = document.getElementById("withdrawDiv");
+            const transferDiv = document.getElementById("transferDiv");
+            const transactionsDiv = document.getElementById("transactionsDiv");
+            const checkBalanceDiv = document.getElementById("checkBalanceDiv");
+
+
+
+            function hideTransactionsData() {
+                $("#tdata").empty();
+            }
+
+            function hideCheckBalanceMessage() {
+                $("#msg4").empty().removeClass("message-style");
+            }
+
+            depositBtn.addEventListener("click", () => {
+                hideAllDivs();
+                hideTransactionsData();
+                depositDiv.style.display = "block";
+            });
+
+
+
+            withdrawBtn.addEventListener("click", () => {
+                hideAllDivs();
+                hideTransactionsData();
+                withdrawDiv.style.display = "block";
+            });
+
+
+
+            transferBtn.addEventListener("click", () => {
+                hideAllDivs();
+                hideTransactionsData();
+                transferDiv.style.display = "block";
+            });
+
+
+
+            transactionsBtn.addEventListener("click", () => {
+                hideAllDivs();
+
+                transactionsDiv.style.display = "block";
+            });
+
+
+
+            checkBalanceBtn.addEventListener("click", () => {
+                hideAllDivs();
+                hideTransactionsData();
+                hideCheckBalanceMessage();
+                checkBalanceDiv.style.display = "block";
+            });
+
+
+
+            function hideAllDivs() {
+                depositDiv.style.display = "none";
+                withdrawDiv.style.display = "none";
+                transferDiv.style.display = "none";
+                transactionsDiv.style.display = "none";
+                checkBalanceDiv.style.display = "none";
+            }
+
+
+        </script>
+</body>
+</html>

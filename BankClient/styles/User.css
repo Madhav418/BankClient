@@ -1,0 +1,97 @@
+﻿body {
+    font-family: 'Times New Roman';
+}
+
+
+.bank-btn {
+    padding: 10px 20px;
+    font-size: 16px;
+    margin: 5px;
+    cursor: pointer;
+    background-color: #3498db;
+    color: white;
+    border: none;
+    border-radius: 5px;
+}
+
+    /* Additional CSS styles for buttons (optional) */
+    .bank-btn:hover {
+        background-color: #2980b9;
+    }
+
+
+.transferform {
+    max-width: 400px;
+    margin: 0 auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+}
+
+    .transferform label {
+        font-size: 16px;
+        font-weight: bold;
+    }
+
+    .transferform input[type="text"],
+    .transferform input[type="number"] {
+        width: 100%;
+        padding: 8px;
+        margin-bottom: 10px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+    }
+
+    .transferform button[type="submit"] {
+        background-color: #4CAF50;
+        color: white;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+
+        .transferform button[type="submit"]:hover {
+            background-color: #45a049;
+        }
+
+.iform {
+    max-width: 400px;
+    margin: 0 auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+}
+
+    .iform label {
+        font-size: 16px;
+        font-weight: bold;
+     
+    }
+
+    .iform input[type="text"],
+    .iform input[type="number"] {
+        width: 100%;
+        padding: 8px;
+        margin-bottom: 10px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+       
+    }
+
+    .iform button[type="submit"] {
+        background-color: #4CAF50;
+        color: white;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+
+        .iform button[type="submit"]:hover {
+            background-color: #45a049;
+        }
+
+

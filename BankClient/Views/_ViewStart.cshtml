@@ -1,0 +1,17 @@
+﻿
+@{
+    //if (Request.Cookies["utype"] == null)
+    if (Session["type"] == null)
+    {
+        Layout = "~/Views/Shared/_Master.cshtml";
+    }
+    else if (Session["type"].Equals("Admin"))
+    {
+        Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    }
+    else
+    {
+        Layout = "~/Views/Shared/_UserLayout.cshtml";
+    }
+
+}

@@ -1,0 +1,84 @@
+﻿/* Body styles */
+body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    font-size:15px;
+    padding: 20px;
+}
+
+/* Login form styles */
+.form-horizontal {
+    display: inline-block;
+    text-align: left;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    background-color: #f9f9f9;
+    margin-bottom: 20px;
+}
+
+.control-label col-md-3 {
+display: block;
+margin-bottom: 5px;
+}
+
+input[type="text"],
+input[type="password"] {
+    width:120%;
+    padding: 8px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+}
+
+/* Login button styles */
+.login-button {
+    background-color: #007bff; /* Change this to your desired login button color */
+    color: #fff;
+    border: none;
+    border-radius: 3px;
+    padding: 10px 20px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    align-content:center
+}
+
+    .login-button:hover {
+        background-color: #0056b3; /* Change this to your desired hover color */
+    }
+
+/* Register link styles */
+.register-link {
+    margin-top: 10px;
+}
+
+    .register-link a {
+        color: #007bff; /* Change this to your desired register link color */
+        text-decoration: none;
+        transition: color 0.3s;
+    }
+
+        .register-link a:hover {
+            color: #0056b3; /* Change this to your desired hover color */
+        }
+
+
+
+.divider:after,
+.divider:before {
+    content: "";
+    flex: 1;
+    height: 1px;
+    background: #eee;
+}
+
+.h-custom {
+    height: calc(100% - 73px);
+}
+
+@media (max-width: 450px) {
+    .h-custom {
+        height: 100%;
+    }
+}

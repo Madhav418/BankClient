@@ -1,0 +1,25 @@
+﻿.layout {
+    /*background-image: url('../images/plain.jpg');*/
+   /* background-image: url('
+    ');*/
+    /* background-image:url('../Images/back2.jpg');*/
+    /* background-image: url('../images/images.jpg');*/
+
+    background-size: cover;
+}
+.container-fluid {
+    background-color: #D5D8DA;
+    /* background-color: #33FFEC;*/
+}
+
+
+/*.layout {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    
+    padding: 50px;
+    
+    position: relative;
+}*/
+/* Styles for the logout button */

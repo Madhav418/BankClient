@@ -1,0 +1,170 @@
+﻿<!DOCTYPE html>
+
+<html>
+@{
+    bool showAlert = ViewBag.ShowAlert ?? false;
+}
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+    <link href="~/styles/MyStyles.css" rel="stylesheet" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    <script src="~/Scripts/MyScripts/Credentials.js"></script>
+    <script src="~/Scripts/MyScripts/Myscp.js"></script>
+    <script src="~/Scripts/MyScripts/JavaScript.js"></script>
+
+    <script type="text/javascript">
+        function preventBack() { window.history.forward(); }
+        setTimeout("preventBack()", 0);
+        window.onunload = function () { null };
+    </script>
+    <script>
+        document.addEventListener('contextmenu', function (e) {
+            e.preventDefault();
+        });
+    </script>
+
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-image: url('https://onpassive.com/blog/wp-content/uploads/2021/01/GF-Future-banking-3.gif');
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            Keeps the background fixed during scrolling font-family: 'Times New Roman';
+        }
+
+        /* Adjust the navigation bar z-index */
+        /*.navbar-container {
+            position: fixed;
+            z-index: 2;*/ /* Adjust the z-index as needed */
+        /*}*/
+    </style>
+
+
+
+
+
+
+</head>
+<body @*style="font-family:'Times New Roman'" class="mlayout"*@>
+
+    <nav class="navbar navbar-expand-lg navbar-expand-md navbar-expand-sm navbar-expand- bg-body-tertiary fixed-top">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">
+                <img src="~/Images/Infinity.png" width="200" height="60" />
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" id="depositLink">Deposit</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" id="withdrawLink">Withdraw</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" id="transferLink">Transfer</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" id="transactionsLink">Transaction Details</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" id="checkBalanceLink">Check Balance</a>
+                    </li>
+                </ul>
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="#/Bank/LogOut"><button class="btn btn-outline-success" id="logout" onclick="myFunction()" type="submit">Logout</button></a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+
+
+
+    <div class="modal fade" id="feedbackModal" tabindex="-1" aria-labelledby="feedbackModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content" style="background-color: #dce5e6; ">
+                <div class="modal-header">
+                    <strong><h5 class="modal-title" id="feedbackModalLabel">Feedback</h5></strong>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    Would you like to give feedback?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="feedbackModalCancelBtn">Cancel</button>
+                    <button type="button" class="btn btn-primary" id="feedbackModalOkBtn">OK</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    @*function myFunction() {
+            var txt;
+            if (confirm("Would you like to give feedback?")) {
+                txt = "Ok";
+            } else {
+                txt = "Cancel";
+
+            }
+            if (txt == "Ok") {
+                window.location.href = "@Url.Action("FeedBack", "Bank")";
+            }
+            else {
+                 window.location.href = "@Url.Action("LogOut", "Bank")";
+            }
+
+        }*@
+
+
+
+<script>
+
+
+                 $(document).ready(function () {
+                     $("#feedbackModalOkBtn").click(function () {
+                         window.location.href = "@Url.Action("FeedBack", "Bank")";
+                       
+                     });
+                     $("#feedbackModalCancelBtn").click(function () {
+                        window.location.href = "@Url.Action("LogOut", "Bank")";
+                     });
+
+                 });
+</script>
+    <script>
+        function myFunction() {
+            $('#feedbackModal').modal('show');
+        }
+    </script>
+
+
+
+
+
+    <div>
+        @RenderBody()
+    </div>
+
+
+
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+</body>
+</html>

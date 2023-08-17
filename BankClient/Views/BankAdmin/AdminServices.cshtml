@@ -1,0 +1,257 @@
+﻿@model BankClient.Models.Entities.User
+@{
+    ViewBag.Title = "AdminServices";
+}
+
+
+
+
+<head>
+
+    @*<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>*@
+    <script>
+
+        $(function () {
+
+
+
+            $("#CheckApprovalsLink").click(function () {
+
+
+                $.ajax({
+                    type: "GET",
+
+                    url: "https://localhost:44352/api/BankAdmin/UserData",
+
+                    dataType: "json",
+                    contentType: "application/json;charset=utf-8",
+                    success: function (data) {
+
+
+                        $("#empdata").empty();
+                        $("#empdata").append("<tr><td>Select</td><td>UserId</td><td>FirstName</td><td>LastName</td><td>Email</td><td>Gender</td><td>Status</td><td>AccountNo</td></tr>");
+                        var dt = "";
+
+                        for (i = 0; i < data.length; i++) {
+                            dt += "<tr><td><input type='checkbox' class='check' name='ch' value='" + data[i].UserId + "' disabled='disabled' /></td>";
+                            dt += "<td>" + data[i].UserId + "</td>";
+                            dt += "<td>" + data[i].FirstName + "</td>";
+                            dt += "<td>" + data[i].LastName + "</td>";
+                            dt += "<td>" + data[i].Email + "</td>";
+                            dt += "<td>" + data[i].Gender + "</td>";
+                            dt += "<td>" + data[i].Status + "</td>";
+                            dt += "<td>" + data[i].AccountNo + "</td>";
+                            dt += "<td><select name='Status' id='status' class='status-dropdown'>";
+                            dt += "<option value='Select'>Select</option>";
+                            dt += "<option value='approve' id='A'>Approve</option>";
+                            dt += "<option value='reject' id='B'>Reject</option></select>";
+                            dt += " <input type='button'' id='btnSubmit' value='Submit' /></td></tr>";
+
+
+                            $("#empdata").append(dt);
+                        }
+
+                        //to enable the checkboxes when we select the dropdown
+                        $(".status-dropdown").on("change", function () {
+                            var checkbox = $(this).closest("tr").find(".check");
+                            if ($(this).val() !== "Select") {
+                                checkbox.prop("checked", true);
+                            } else {
+                                checkbox.prop("checked", false);
+                            }
+                        });
+
+
+                        $("#btnSubmit").click(function () {
+                            var updatedData = [];
+                            $("#empdata tr:gt(0)").each(function () {
+                                var UserId = $(this).find("td:eq(1)").text();
+                                var status = $(this).find(".status-dropdown").val();
+
+                                if (status !== "Select") {
+                                    updatedData.push({
+                                        UserId: UserId,
+                                        Status: status
+                                    });
+                                    $(this).remove();
+                                }
+                            });
+                            alert(JSON.stringify(updatedData));
+
+
+
+                            if (updatedData.length > 0) {
+                                $.ajax({
+                                    type: "POST",
+                                    url: "https://localhost:44352/api/BankAdmin/", // Replace with the correct URL to your controller action
+                                    data: JSON.stringify(updatedData),
+                                    dataType: "JSON",
+                                    contentType: "application/json;charset=utf-8",
+                                    success: function (data) {
+                                        alert("Roles updated successfully!");
+                                        
+                                    },
+                                    error: function (xhr, status, error) {
+                                        console.error('Error:', error);
+                                    }
+                                });
+                            } else {
+                                alert("Please select a role for at least one user.");
+                            }
+                        });
+
+
+                    },
+                    error: function (x, err) {
+                        alert(x.readyState);
+                        alert(x.responseText);
+                    }
+                });//ajax closed
+
+
+            });//btnClick Closed
+
+
+        })
+        $(function () {
+
+            $("#FeedBackLink").click(function () {
+
+
+                $.ajax({
+                    type: "GET",
+
+                    url: "https://localhost:44352/api/BankAdmin/feedback",
+
+                    dataType: "json",
+                    contentType: "application/json;charset=utf-8",
+                    success: function (data) {
+
+
+                        $("#empdata").empty();
+                        $("#empdata").append("<tr><td><b>UserId</b></td><td><b>Name</b></td><td><b>FeedBack Type</b></td><td><b>Enquiry On</b></td><td><b>Email</b></td><td><b>Contact</b></td><td><b>Description</b></td></tr>");
+                        var dt = "";
+
+                        for (i = 0; i < data.length; i++) {
+
+                            dt += "<tr><td>" + data[i].UserId + "</td>";
+                            dt += "<td>" + data[i].Name + "</td>";
+                            dt += "<td>" + data[i].Type + "</td>";
+                            dt += "<td>" + data[i].EnquiryOn + "</td>";
+                            dt += "<td>" + data[i].Email + "</td>";
+                            dt += "<td>" + data[i].Contact + "</td>";
+                            dt += "<td>" + data[i].Description + "</td></tr>";
+
+
+
+
+                            $("#empdata").append(dt);
+                        }
+
+
+                    },
+
+                    error: function (x, err) {
+                        alert(x.readyState);
+                        alert(x.responseText);
+                    }
+
+                })
+            })
+        })
+
+
+
+    </script>
+    <style>
+        /* Add custom styles here */
+        body {
+            background-color: #f8f9fa;
+        }
+
+        .container {
+            margin-top: 20px;
+        }
+
+        h2 {
+            color: #343a40;
+            margin-bottom: 20px;
+        }
+
+        #btnClick, #btnSubmit,#fbtn {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+            #btnClick:hover, #btnSubmit:hover, #fbtn:hover {
+                background-color: #0056b3;
+            }
+
+        /* Add custom styles for the table */
+        #empdata {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+            #empdata th, #empdata td {
+                padding: 8px;
+                text-align: left;
+                border: 1px solid #dee2e6;
+            }
+
+            #empdata th {
+                background-color: #f2f2f2;
+                font-weight: bold;
+            }
+    </style>
+
+</head>
+
+<div class="container" id="CheckApprovalsDiv">
+
+    @*<input type="button" value="Check Approvals" id="btnClick" />
+    <input type="button" value="Customers FeedBack" id="fbtn" />*@
+
+
+    <br/>
+    
+    <br/>
+    <table class="table table-sm table-dark" id="empdata">
+        <!-- Table content will be populated dynamically using AJAX -->
+
+    </table>
+
+   
+
+
+</div>
+<div id="FeedBackDiv">
+
+</div>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const CheckApprovalsLink = document.getElementById("CheckApprovalsLink");
+        const FeedBackLink = document.getElementById("FeedBackLink");
+      
+
+        CheckApprovalsLink.addEventListener("click", () => {
+            hideAllDivs();
+            hideTransactionsData();
+            CheckApprovalsDiv.style.display = "block";
+        });
+
+        FeedBackLink.addEventListener("click", () => {
+            hideAllDivs();
+            hideTransactionsData();
+            FeedBackDiv.style.display = "block";
+        });
+
+      
+
+     
+    });
+</script>

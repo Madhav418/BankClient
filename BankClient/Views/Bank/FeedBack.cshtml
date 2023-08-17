@@ -1,0 +1,207 @@
+﻿@model BankClient.Models.Entities.FeedBackModel
+@{
+    ViewBag.Title = "FeedBack";
+}
+
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Feedback Form</title>
+    <!-- Add Bootstrap CSS link -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        #msg {
+            font-size: 18px;
+            font-weight: bold;
+            color: green; /* You can change the color to your preference */
+            padding: 0px;
+            /*border: 1px solid #007bff;*/
+            /* border-radius: 5px;*/
+           
+        }
+
+        body {
+            background-color: #f8f9fa;
+        }
+
+        .container {
+            background-color: #ffffff;
+            border-radius: 10px;
+            padding: 10px; /* Adjust the padding */
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            max-width: 700px; /* Adjust the max-width */
+            margin: 0 auto; /* Center the container horizontally */
+        }
+
+        h2 {
+            color: #343a40;
+        }
+
+        .form-group label {
+            color: #141414;
+            font-weight: bold;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+        }
+
+        .btn-primary {
+            background-color: #007bff;
+            border-color: #007bff;
+        }
+
+            .btn-primary:hover {
+                background-color: #0056b3;
+                border-color: #0056b3;
+            }
+    </style>
+
+
+
+    <script>
+
+        $(function () {
+            $("#btnsubmit").click(function () {
+                var userId = $("#UserId").val();
+                var name = $("#name").val();
+                var feedbackType = $("#feedbackType").val();
+                var feedbackTopic = $("#feedbackTopic").val();
+                var email = $("#email").val();
+                var contactNumber = $("#contactNumber").val();
+                var description = $("#description").val();
+
+               
+
+                var requestData = {
+                    UserId: userId,
+                    Name: name,
+                    Type: feedbackType,
+                    EnquiryOn: feedbackTopic,
+                    Email: email,
+                    Contact: contactNumber,
+                    Description: description
+                };
+
+                $.ajax({
+                    
+                    type: "POST",
+                    url: "https://localhost:44352/api/UserOperations",
+                    data: JSON.stringify(requestData),
+                    dataType: "json",
+                    contentType: "application/json;charset=utf-8",
+                    async: false,
+                    
+                    success: function (data) {
+                       
+                       // $("#UserId").val("");
+                        //$("#name").val("");
+                        //$("#feedbackType").val("");
+                        //$("#feedbackTopic").val("");
+                        //$("#email").val("");
+                        //$("#contactNumber").val("");
+                        //$("#description").val("");
+                        document.getElementById("msg").innerHTML = data;
+
+                     //   $("#msg").text(data);
+                    },
+                    //error: function (xhr, textStatus, errorThrown) {
+                    //    alert("An error occurred while submitting the form.");
+                    //    console.log(xhr.status, errorThrown);
+                    error: function (x, err) {
+                        alert(x.readyState);
+                        alert(x.responseText);
+
+                    }
+                    
+                });
+            });
+        });
+
+
+
+
+
+
+    </script>
+
+
+</head>
+<body>
+  
+    @using (Html.BeginForm())
+    {
+    <div class="container mt-4">
+        <h2 class="mb-4">Feedback</h2>
+        <form>
+            <div id="msg"></div>
+            <div class="form-group">
+                <label for="UserId">UserId</label>
+                <input type="text" class="form-control" id="UserId" name="UserID" value="@Session["userid"] " disabled>
+
+            </div>
+
+            <div class="form-group">
+                <label for="name">Name</label>
+                @Html.TextBoxFor(m => m.Name, new { @class = "form-control", id = "name" })
+                @Html.ValidationMessageFor(m => m.Name, "", new { @class = "text-danger" })
+            </div>
+            <div class="form-group">
+                <label for="feedbackType">Type of Feedback</label>
+                @Html.DropDownListFor(m => m.Type, new SelectList(new[]
+                {
+                    new SelectListItem { Value = "Select", Text = "Select" },
+                    new SelectListItem { Value = "Complaint", Text = "Complaint" },
+                    new SelectListItem { Value = "Suggestion", Text = "Suggestion" },
+                    new SelectListItem { Value = "Enquiry", Text = "Enquiry" },
+                    new SelectListItem { Value = "Appreciation", Text = "Appreciation" }
+                }, "Value", "Text"), "Select", new { @class = "form-control", id = "feedbackType" })
+                @Html.ValidationMessageFor(m => m.Type, "", new { @class = "text-danger" })
+            </div>
+            <div class="form-group">
+                <label for="feedbackTopic">Feedback/Enquiry on:</label>
+                @Html.DropDownListFor(m => m.EnquiryOn, new SelectList(new[]
+                {
+                    new SelectListItem { Value = "Select", Text = "Select" },
+                    new SelectListItem { Value = "Deposit", Text = "Deposit" },
+                    new SelectListItem { Value = "Withdraw", Text = "Withdraw" },
+                    new SelectListItem { Value = "Transfer", Text = "Transfer" },
+                    new SelectListItem { Value = "Loans", Text = "Loans" },
+                    new SelectListItem { Value = "Credit/Bank", Text = "Credit/Debit Cards" }
+                }, "Value", "Text"), "Select", new { @class = "form-control", id = "feedbackTopic" })
+                @Html.ValidationMessageFor(m => m.EnquiryOn, "", new { @class = "text-danger" })
+            </div>
+
+            <div class="form-group">
+                <label for="email">Email Address</label>
+                @Html.TextBoxFor(m => m.Email, new { @class = "form-control", id = "email" })
+                @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
+            </div>
+            <div class="form-group">
+                <label for="contactNumber">Contact Number</label>
+                @Html.TextBoxFor(m => m.Contact, new { @class = "form-control", id = "contactNumber" })
+                @Html.ValidationMessageFor(m => m.Contact, "", new { @class = "text-danger" })
+            </div>
+            <div class="form-group">
+                <label for="description">Description</label>
+                @Html.TextAreaFor(m => m.Description, new { @class = "form-control", rows = 4, id = "description" })
+                @Html.ValidationMessageFor(m => m.Description, "", new { @class = "text-danger" })
+            </div>   <!-- ... (your existing form controls) ... -->
+
+            <button type="button" id="btnsubmit" class="btn btn-primary">Submit Feedback</button>
+
+        </form>
+    </div>
+    }
+    <!-- Add Bootstrap and jQuery scripts -->
+   
+</body>
+</html>

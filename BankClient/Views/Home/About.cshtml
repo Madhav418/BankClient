@@ -1,0 +1,176 @@
+﻿@{
+    ViewBag.Title = "About";
+}
+
+
+
+<script>
+        document.addEventListener('contextmenu', function (e) {
+            e.preventDefault();
+        });
+</script>
+<style>
+
+    body {
+        font-family: 'Times New Roman';
+    }
+
+    html {
+        box-sizing: border-box;
+    }
+
+    *, *:before, *:after {
+        box-sizing: inherit;
+    }
+
+    .column {
+        float: left;
+        width: 33.3%;
+        margin-bottom: 16px;
+        padding: 0 8px;
+    }
+
+    .card {
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+        margin: 8px;
+        /* Decrease the height here */
+        height: 350px;
+        text-align: center;
+        background-color: #f1f1f1;
+    }
+
+    .about-section {
+        padding: 50px;
+        text-align: center;
+        background-color: #474e5d;
+        color: white;
+    }
+
+    .container {
+        padding: 0 16px;
+    }
+
+        .container::after, .row::after {
+            content: "";
+            clear: both;
+            display: table;
+        }
+
+    .title {
+        color: grey;
+    }
+
+    .button {
+        border: none;
+        outline: 0;
+        display: inline-block;
+        padding: 8px;
+        color: white;
+        background-color: #000;
+        text-align: center;
+        cursor: pointer;
+        width: 100%;
+    }
+
+        .button:hover {
+            background-color: #555;
+        }
+
+    @@media screen and (max-width: 650px) {
+        .column {
+            width: 100%;
+            display: block;
+        }
+    }
+</style>
+<style>
+    .row {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+    }
+
+    .column {
+        width: 25%;
+        padding: 15px;
+    }
+
+    .card {
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+        padding: 16px;
+        text-align: center;
+        background-color: #f1f1f1;
+    }
+
+        .card img {
+            width: 100%;
+            height: 48%;
+        }
+
+    .container {
+        padding: 10px 0;
+    }
+</style>
+
+<div class="about-section">
+    <h1>Infinity Bank</h1>
+    <br />
+    <p style=" font-size:18px;">At Infinity Bank, we are committed to providing reliable and customer-friendly banking solutions to meet your financial needs. Whether you are looking for a home loan to buy your dream house, an education loan to pursue higher studies, or seeking secure ways to manage your money, we have got you covered.</p>
+    <p style="font-size:18px;">Explore our range of banking services and discover how we can assist you in building a strong financial future. </p>
+    <p style="font-size:18px; font-family:'Arial Rounded MT'" ;>Join Infinity Bank today and experience the difference!.</p>
+</div>
+<br />
+
+<h2 style="text-align:center">Our Team</h2>
+<div class="row">
+    <div class="column">
+        <div class="card">
+
+            <img src="~/Images/MC.png" />
+            <div class="container">
+                <h2>Manasa Chandu</h2>
+                <p class="title">Software Engineer Trainee</p>
+                <p>manasa.chandu@techwave.net</p>
+                <p><button class="button">Contact</button></p>
+            </div>
+        </div>
+    </div>
+
+    <div class="column">
+        <div class="card">
+            <img src="~/Images/lg.png" />
+            <div class="container">
+                <h2>Likhitha Gosu</h2>
+                <p class="title">Software Engineer Trainee</p>
+                <p>likitha.gosu@techwave.net</p>
+                <p><button class="button">Contact</button></p>
+            </div>
+        </div>
+    </div>
+
+    <div class="column">
+        <div class="card">
+            <img src="~/Images/AF.png" />
+            <div class="container">
+                <h2>Ayesha Fathima</h2>
+                <p class="title">Software Engineer Trainee</p>
+
+                <p>ayesha.shaik@techwave.net</p>
+                <p><button class="button">Contact</button></p>
+            </div>
+        </div>
+    </div>
+
+    <div class="column">
+        <div class="card">
+            <img src="~/Images/MD.png" />
+            <div class="container">
+                <h2>MadhavaRao</h2>
+                <p class="title">Software Engineer Trainee</p>
+
+                <p>madhava.dummu@techwave.net</p>
+                <p><button class="button">Contact</button></p>
+            </div>
+        </div>
+    </div>
+</div>
